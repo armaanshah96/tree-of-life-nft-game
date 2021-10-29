@@ -6,14 +6,14 @@
   color: white;
 }
 
-.arena-container .boss-container {
+.arena-container .tree-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin-bottom: 50px;
 }
 
-.boss-container .boss-content {
+.tree-container .tree-content {
   display: flex;
   flex-direction: column;
   padding: 15px;
@@ -32,24 +32,24 @@
   margin-bottom: 25px;
 }
 
-.boss-content h2 {
+.tree-content h2 {
   margin: 0;
   padding: 5px 0 10px 0;
 }
 
-.boss-content .image-content,
+.tree-content .image-content,
 .player .image-content {
   position: relative;
 }
 
-.boss-content .image-content img {
+.tree-content .image-content img {
   width: 350px;
   height: 300px;
   border-radius: 10px;
   object-fit: cover;
 }
 
-.image-content .health-bar {
+.image-content .health-bar, .image-content .influence-bar {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -57,7 +57,7 @@
   height: 30px;
 }
 
-.health-bar progress[value] {
+.health-bar progress[value], .influence-bar progress[value] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -75,12 +75,18 @@
   background-color: #70cb1b;
 }
 
-.health-bar p {
+.health-bar p, .influence-bar p {
   position: absolute;
   width: 100%;
   font-weight: bold;
   color: black;
   bottom: -10px;
+}
+
+.influence-bar progress[value]::-webkit-progress-value {
+  background-color: #1bb6cb;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .arena-container .players-container {
@@ -142,13 +148,13 @@
   text-align: left;
 }
 
-.players-container .attack-container {
+.players-container .support-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.attack-container button {
+.support-container button {
   height: 60px;
   font-size: 18px;
   background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -157,14 +163,14 @@
 }
 
 /* Effects */
-.boss-container .attacking {
+.tree-container .supporting {
   animation: shake 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
-.boss-container .hit {
+.tree-container .supported {
   animation: hit-bounce 1s ease;
 }
 

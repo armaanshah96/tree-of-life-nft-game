@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import "./App.css";
 import SelectCharacter from "./Components/SelectCharacter";
-import Game from './utils/Game.json';
-import { CONTRACT_ADDRESS, transformCharacterData } from './constants';
-
+import Game from "./utils/Game.json";
+import { CONTRACT_ADDRESS, transformCharacterData } from "./constants";
+import Arena from "./Components/Arena";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -62,25 +62,51 @@ const App = () => {
 
   useEffect(() => {
     const fetchNftMetadata = async () => {
-      console.log('Looking up user for NFT associated with their account', currentAccount);
+      console.log(
+        "Looking up user for NFT associated with their account",
+        currentAccount
+      );
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const gameContract = new ethers.Contract(CONTRACT_ADDRESS, Game.abi, signer);
+      const gameContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        Game.abi,
+        signer
+      );
 
       const txn = await gameContract.checkIfUserHasNft();
-      if(txn.name) {
-        console.log('User has NFT character type', txn);
+      if (txn.name) {
+        console.log("User has NFT character type", txn);
         setCharacterNft(transformCharacterData(txn));
       } else {
-        console.log('No NFT Found')
+        console.log("No NFT Found");
       }
-    }
+    };
 
-    if(currentAccount) {
+    if (currentAccount) {
       console.log("Current account:", currentAccount);
       fetchNftMetadata();
     }
   }, [currentAccount]);
+
+  const renderContent = () => {
+    if (!currentAccount) {
+      return (
+        <div className="connect-wallet-container">
+          <button
+            className="cta-button connect-wallet-button"
+            onClick={connectWallet}
+          >
+            Connect Wallet
+          </button>
+        </div>
+      );
+    } else if (currentAccount && !characterNft) {
+      return <SelectCharacter setCharacterNft={setCharacterNft} />;
+    } else if (currentAccount && characterNft) {
+      return <Arena setCharacterNft={setCharacterNft} characterNft={characterNft}/>;
+    }
+  };
 
   return (
     <div className="App">
@@ -88,16 +114,7 @@ const App = () => {
         <div className="header-container">
           <p className="header gradient-text">🪴 Tree of Life 🌲 </p>
           <p className="sub-text">Team up to grow the tree of life</p>
-          <div className="connect-wallet-container">
-            {currentAccount ? <SelectCharacter setCharacterNft={setCharacterNft} /> : (
-              <button
-                className="cta-button connect-wallet-button"
-                onClick={connectWallet}
-              >
-                Connect Wallet
-              </button>
-            )}
-          </div>
+          {renderContent()}
         </div>
       </div>
     </div>
