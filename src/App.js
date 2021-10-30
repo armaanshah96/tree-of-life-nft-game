@@ -6,6 +6,9 @@ import Game from "./utils/Game.json";
 import { CONTRACT_ADDRESS, transformCharacterData } from "./constants";
 import Arena from "./Components/Arena";
 
+const TWITTER_HANDLE = '_buildspace';
+const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [characterNft, setCharacterNft] = useState(null);
@@ -115,6 +118,14 @@ const App = () => {
           <p className="header gradient-text">🪴 Tree of Life 🌲 </p>
           <p className="sub-text">Team up to grow the tree of life</p>
           {renderContent()}
+        </div>
+        <div className="footer-container">
+          <a
+            className="footer-text"
+            href={TWITTER_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >{`built with @${TWITTER_HANDLE} 🙌🏽`}</a>
         </div>
       </div>
     </div>
